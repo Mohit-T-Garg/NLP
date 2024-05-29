@@ -1,0 +1,6 @@
+torch
+numpy
+gensim
+pandas
+nltk
+datefinder

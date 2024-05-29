@@ -1,0 +1,15 @@
+Approach:
+We finetuned FLAN T5 (base) using the datasets provided to us. We used PEFT framework (Lora) for fine-tuning pretrained language models (LLMs) for specific downstream tasks which in our casae was to summarize bio texts for a layman. The tokenizer associated with the base pretrained model is also loaded using AutoTokenizer.from_pretrained. We also followed the following tutorial: https://www.datacamp.com/tutorial/flan-t5-tutorial.
+
+Results:
+The validation loss and Rouge was decreasing after every training epoch. Eg
+
+Epoch	Training Loss	Validation Loss	Rouge1	Rouge2	Rougel	Rougelsum
+1	No log	5.252021	0.036534	0.000000	0.036515	0.036464
+2	5.630800	5.161664	0.042153	0.000502	0.041692	0.042173
+3	5.630800	5.053186	0.011991	0.000000	0.011988	0.012000
+
+We couldn't see the final standing on codabench as it did not evaluate in time. Though we have attached the screenshot of our submission.
+
+Collaborations:
+None

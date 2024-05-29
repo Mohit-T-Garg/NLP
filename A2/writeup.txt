@@ -1,0 +1,68 @@
+**Writeup:**
+
+**Approach:**
+
+In this project, we devised a hybrid approach for predicting rows and columns in tabular data for answering questions. We utilized a bidirectional LSTM (Long Short-Term Memory) model for column prediction and a TF-IDF (Term Frequency-Inverse Document Frequency) based rule-based system for row prediction. The process involves the following steps:
+
+1. **Data Preprocessing:**
+   - The input data, consisting of questions and corresponding tables, is preprocessed by tokenizing the text and converting it to lowercase.
+   - For column prediction using LSTM, the word vectors are loaded using the GloVe word embeddings provided by the Gensim library.
+   - For row prediction using TF-IDF, the rows are vectorized using the TF-IDF vectorization technique.
+
+2. **Model Architecture:**
+   - For column prediction, we implemented a bidirectional LSTM model to capture both past and future context information of the input sequences.
+   - The LSTM layer is followed by a linear layer to produce output predictions.
+   - Cosine similarity is computed between the output and the ground truth labels.
+   - For row prediction, we utilized a TF-IDF based rule-based system. The row with the highest cosine similarity score with the question vector is selected as the predicted row.
+
+3. **Training:**
+   - The LSTM model for column prediction is trained using the Adam optimizer with a learning rate of 1e-3.
+   - Cross-entropy loss function is utilized to compute the loss during training.
+   - Training is performed for a single epoch due to the simplicity of the task and to prevent overfitting on the training data.
+
+4. **Evaluation:**
+   - After training, the LSTM model's performance is evaluated on both the training and validation datasets using accuracy as the evaluation metric.
+   - The TF-IDF based rule-based system's performance is evaluated by measuring the subset accuracy of the predicted rows compared to the ground truth rows.
+
+5. **Inference:**
+   - During inference, the trained LSTM model is utilized to predict the most similar column for a given question.
+   - The TF-IDF based rule-based system is employed to predict the most similar row for a given question.
+
+6. **Saving and Loading Model:**
+   - The trained LSTM model's state dictionary is saved to a file named "lstm_model.pth" for future use.
+   - During inference, the LSTM model is loaded from the saved state dictionary.
+
+**Discussion:**
+
+- We adopted a hybrid approach for column and row prediction, leveraging the strengths of LSTM models and rule-based systems.
+- LSTM models are effective in capturing sequential dependencies and contextual information, making them suitable for column prediction tasks.
+- TF-IDF based rule-based systems are simple yet powerful for row prediction tasks, especially when dealing with textual data.
+- Training on both training and validation data.
+- The choice of hyperparameters such as batch size, learning rate, and hidden dimension size can significantly impact the LSTM model's performance.
+
+**Citations and References:**
+
+- Gensim library: [https://github.com/RaRe-Technologies/gensim](https://github.com/RaRe-Technologies/gensim)
+- PyTorch library: [https://pytorch.org/](https://pytorch.org/)
+- Scikit-learn library: [https://scikit-learn.org/stable/](https://scikit-learn.org/stable/)
+- GloVe word embeddings: [https://nlp.stanford.edu/projects/glove/](https://nlp.stanford.edu/projects/glove/)
+- LSTM (Long Short-Term Memory): [https://www.bioinf.jku.at/publications/older/2604.pdf](https://www.bioinf.jku.at/publications/older/2604.pdf)
+- TF-IDF (Term Frequency-Inverse Document Frequency): [https://en.wikipedia.org/wiki/Tf%E2%80%93idf](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
+
+**Libraries Used:**
+
+- PyTorch: A deep learning library for Python that provides flexibility and speed in building various neural network architectures.
+- Gensim: A Python library for topic modeling, document indexing, and similarity retrieval with large corpora.
+- Scikit-learn: A machine learning library in Python that provides simple and efficient tools for data mining and data analysis.
+
+**Hyperparameters:**
+
+- Batch size: 32
+- Learning rate: 1e-3
+- Hidden dimension size: 256
+- Number of training epochs: 15 (for LSTM model)
+- Embedding dimension: 100
+
+**Conclusion:**
+
+In conclusion, we developed a hybrid approach for predicting rows and columns in tabular data for answering questions. By combining a bidirectional LSTM model for column prediction and a TF-IDF based rule-based system for row prediction, we achieved satisfactory performance on both the training and validation datasets. This project demonstrates the effectiveness of leveraging both deep learning models and rule-based systems for tasks involving tabular data and natural language processing. Further experimentation with hyperparameters and model architectures could potentially enhance the performance of the system.

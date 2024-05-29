@@ -1,0 +1,103 @@
+COL772 2024  
+Assignment 1: Language Identification
+
+<-> Mohit Garg(2020AM10657)
+
+# Language Identification Model
+
+## How to Run the Program
+
+1. **Training the Model:**
+   - Execute the following command to train the language identification model:
+     bash run_model.sh train <path_to_data_json> <path_to_save>
+     
+     Sample:- bash run_model.sh train "/mnt/d/My Files/COL772/A1/data/" "/mnt/d/My Files/COL772/A1/model/"
+
+2. **Testing the Model:**
+   - To run inference using the trained model, use:
+     bash run_model.sh test <path_to_save> <path_to_test_json> output.txt
+     
+     Sample:- bash run_model.sh test "/mnt/d/My Files/COL772/A1/model/" "/mnt/d/My Files/COL772/A1/data/valid_new.json" output.txt
+
+3. **Validation:**
+   - For model validation, run:
+     bash run_model.sh validate <path_to_save> <path_to_validation_json>
+     
+     Sample:- bash run_model.sh validate "/mnt/d/My Files/COL772/A1/model/" "/mnt/d/My Files/COL772/A1/data/valid_new.json"
+
+Before running the script, ensure it has executable permissions:
+chmod +x run_model.sh
+
+## Required Packages
+
+Ensure the following Python packages are installed:
+
+pip install scikit-learn scipy numpy
+
+## Approach
+
+### Features
+- The model utilizes both word-level and sub-word level features for robust language identification.
+- Word-level features are extracted using CountVectorizer with unigrams, bigrams, stop-word removal, and regex tokenization.
+- Sub-word level features are generated using a custom character n-gram tokenizer (n = 2 to 5).
+
+### TF-IDF Transformation
+- The features are transformed using TF-IDF (Term Frequency-Inverse Document Frequency) representation.
+- TF-IDF assigns weights to terms based on their importance in individual documents and across the entire dataset.
+
+### Model
+- The chosen model is a Complement Naive Bayes classifier, suitable for imbalanced text classification tasks.
+- Hyperparameters:- alpha = 0.025 with configuration class_prior=None, fit_prior=False
+- The classifier is trained on a combination of word-level and sub-word level features.
+
+### Reasoning
+- Word-level features capture language patterns at the word level.
+- Sub-word level features provide insight into character n-gram patterns, especially useful for morphologically rich languages.
+
+## Concise Overview
+
+The program consists of three main scripts:
+
+1. **train.py:**
+   - Trains the language identification model using word-level and sub-word level features.
+   - Saves the trained model, vectorizers, and transformers for later use.
+
+2. **inference.py:**
+   - Loads the trained model and associated components.
+   - Makes predictions on a given test set and saves the results to `output.txt`.
+
+3. **validation.py:**
+   - Evaluates the trained model's performance on a validation set.
+   - Computes and prints Micro F1 Score and Macro F1 Score.
+
+4. **run_model.sh:**
+   - Wrapper script for easy execution of training, testing, and validation commands.
+
+## Observations
+
+### Classes Distribution:
+{'de': 80961, 'ml': 3561, 'hi': 3568, 'bn': 3602, 'pt': 73553, 'it': 74531, 'es': 78510, 'ta': 3557, 'en': 315802, 'fr': 82377, 'kn': 3788, 'sv': 72795, 'mr': 3398}
+Class Imbalance observed.
+
+### Hyperparameters:
+- After bigrams, results have negligible changes.
+- 69 Lakh features
+- smoothing parameter for Complement Naive Bayes classifier - 0.025 after manual testing.
+
+### Results (training using train.json):
+- valid.json:  Micro F1 Score: 0.9764004064374446                                                                                                                    
+               Macro F1 Score: 0.9867081043029439
+- valid_new.json: Micro F1 Score: 0.9245056920311564
+                  Macro F1 Score: 0.9336860357698217 
+
+## Notes
+- The program assumes Python 3.x is installed.
+- Adjust the paths and filenames in the scripts as per your directory structure.
+
+## References
+- Scikit-learn Documentation: [https://scikit-learn.org/stable/documentation.html](https://scikit-learn.org/stable/documentation.html)
+- Use of GPT, stackoverflow for debugging and writeup.txt [PROBLEM NOT SOLVED USING LANGUAGE MODEL]
+
+---
+
+**Note:** Replace `<path_to_data_json>`, `<path_to_save>`, `<path_to_test_json>`, `<path_to_validation_json>` with your actual file paths.
